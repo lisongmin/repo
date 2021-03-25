@@ -13,3 +13,6 @@ post_build: aur_post_build
 update_on:
   - source: aur
     aur: bear
+  - alias: grpc
+  - alias: fmt
+  - alias: spdlog
