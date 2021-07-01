@@ -1,0 +1,11 @@
+[Unit]
+Description=A tun2socks implementation written in Go.
+After=network.target
+
+[Service]
+User=tun2socks
+EnvironmentFile=/etc/tun2socks.d/%i
+ExecStart=/usr/bin/tun2socks -device tun://%i -proxy $PROXY_SERVER
+
+[Install]
+WantedBy=multi-user.target

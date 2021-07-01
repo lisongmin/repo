@@ -1,0 +1,5 @@
+
+post_install() {
+    echo "Creating tun2socks user"
+    id -u tun2socks &>/dev/null || useradd --system --user-group -M -d /dev/null -s /usr/bin/nologin tun2socks
+}

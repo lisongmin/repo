@@ -1,0 +1,32 @@
+# Maintainer: Songmin Li <lisongmin@protonmail.com>
+pkgname=tun2socks
+pkgver=2.2.1
+pkgrel=1
+pkgdesc="A tun to socks implementation written in Go."
+arch=(x86_64)
+url=https://github.com/xjasonlyu/tun2socks
+license=(GPL)
+makedepends=(go git)
+install="${pkgname}".install
+source=(
+    $pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz
+    tun2socks@.service
+    tun2socks-default
+    )
+sha512sums=(
+    '8f226fda878301a8ad625ce1163981fbfdccfdf9a96c4f5c238ec15009932b4ef7c04a53f5f6a332cfc75b8e213f144fbc2fee76c312c4ed14ebc163b1a512d7'
+    'c377adaf6c2ca0b3d4edd4ffe888082ad4ac2db9081fc6b0cf37a9d705f0195071738c9d0d2d387f2446685f2232337e76f3d14eb73e31bdd30d3957a9a45b25'
+    'c11a82c1541e6badb34d52b71111243863878f9de3dab51a2f2e957698229e1af1c9940ca0a887670effb5c2e9665b64d29470c7bfa768ce5ff657ef54976fdd'
+    )
+
+build() {
+    cd $pkgname-$pkgver
+
+    unset LDFLAGS
+    make CGO_ENABLED=1 BUILD_VERSION=${pkgver}-${pkgrel} tun2socks
+}
+package() {
+    install -Dm755 $pkgname-$pkgver/build/tun2socks "$pkgdir/usr/bin/tun2socks"
+    install -Dm644 tun2socks@.service "$pkgdir/usr/lib/systemd/system/tun2socks@.service"
+    install -Dm644 tun2socks-default "$pkgdir/etc/tun2socks.d/default"
+}
